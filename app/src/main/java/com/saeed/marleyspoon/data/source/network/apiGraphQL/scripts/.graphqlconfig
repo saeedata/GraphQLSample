@@ -1,0 +1,16 @@
+{
+  "name": "Untitled GraphQL Schema",
+  "schemaPath": "schema.graphqls",
+  "extensions": {
+    "endpoints": {
+      "Default GraphQL Endpoint": {
+        "url": "https://graphql.contentful.com/content/v1/spaces/kk2bw5ojx476/environments/master",
+        "headers": {
+          "user-agent": "Android GraphQL",
+          "Authorization": "Bearer 7ac531648a1b5e1dab6c18b0979f822a5aad0fe5f1109829b8a197eb2be4b84c"
+        },
+        "introspect": false
+      }
+    }
+  }
+}

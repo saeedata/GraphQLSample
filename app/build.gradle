@@ -1,0 +1,207 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-parcelize'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+    id 'androidx.navigation.safeargs.kotlin'
+    id 'com.apollographql.apollo3'
+}
+
+apply from: '../appDependencies.gradle'
+apply from: '../appConfig.gradle'
+
+android {
+    compileSdk compile_sdk_ver
+
+    defaultConfig {
+        applicationId application_id
+        minSdk minimum_sdk_ver
+        targetSdk target_sdk_ver
+        versionCode version_code
+        versionName version_name
+        multiDexEnabled = true
+        testInstrumentationRunner "com.saeed.marleyspoon.utils.CustomTestRunner"
+
+        if (commonSettings["var"].size() != 0) {
+            for (p in commonSettings["var"].keySet()) {
+                buildConfigField "String", p.toUpperCase(), "\"${commonSettings["var"][p]}\""
+            }
+        }
+        if (commonSettings["res"].size() != 0) {
+            for (p in commonSettings["res"].keySet()) {
+                resValue "string", p, commonSettings["res"][p]
+            }
+        }
+    }
+
+//    signingConfigs {
+//        release {
+//            storeFile file('./XXXX.jks')
+//            keyAlias 'XXXX'
+//            keyPassword 'XXXX'
+//            storePassword 'XXXX'
+//        }
+//        debug {
+//            storeFile file('./XXXX.jks')
+//            keyAlias 'XXXX'
+//            keyPassword 'XXXX'
+//            storePassword 'XXXX'
+//        }
+//    }
+
+    buildTypes {
+        release {
+            debuggable false
+            shrinkResources true
+            minifyEnabled true
+//            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            if (releaseSettings["var"].size() != 0) {
+                for (p in releaseSettings["var"].keySet()) {
+                    buildConfigField "String", p.toUpperCase(), "\"${releaseSettings["var"][p]}\""
+                }
+            }
+            if (releaseSettings["res"].size() != 0) {
+                for (p in releaseSettings["res"].keySet()) {
+                    resValue "string", p, releaseSettings["res"][p]
+                }
+            }
+        }
+        debug {
+            applicationIdSuffix ".beta"
+            debuggable true
+            minifyEnabled false
+//            signingConfig signingConfigs.debug
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            if (debugSettings["var"].size() != 0) {
+                for (p in debugSettings["var"].keySet()) {
+                    buildConfigField "String", p.toUpperCase(), "\"${debugSettings["var"][p]}\""
+                }
+            }
+            if (debugSettings["res"].size() != 0) {
+                for (p in debugSettings["res"].keySet()) {
+                    resValue "string", p, debugSettings["res"][p]
+                }
+            }
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = '11'
+    }
+    kapt {
+//        generateStubs = true
+        correctErrorTypes = true
+        javacOptions {
+            option("-Xmaxerrs", 500)
+        }
+    }
+    packagingOptions {
+        exclude 'META-INF/*.kotlin_module'
+    }
+    lintOptions {
+//        quiet true
+//        abortOnError false
+        checkReleaseBuilds false
+        ignoreWarnings true
+    }
+    buildFeatures {
+        dataBinding = true
+    }
+    apollo {
+        generateKotlinModels.set(true)
+        packageName.set("${application_id}.domain.model.network.response")
+        srcDir("src/main/java/${application_id}/data/source/network/apiGraphQL/scripts".replaceAll("\\.","/"))
+//        customScalarsMapping = [
+//                "Date": "java.util.Date"
+//        ]
+    }
+    testOptions {
+        animationsDisabled = true
+        unitTests {
+            includeAndroidResources = true
+            all {
+                testLogging {
+                    events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+                }
+            }
+        }
+    }
+    hilt {
+        enableTransformForLocalTests = true
+        enableExperimentalClasspathAggregation = true
+    }
+}
+
+dependencies {
+
+    implementation androidx.appcompat
+    implementation androidx.coreKtx
+    implementation androidx.fragmentKtx
+    implementation androidx.cardview
+    implementation androidx.multidex
+    implementation androidx.constraintlayout
+
+    implementation navigation.fragmentKtx
+    implementation navigation.uiKtx
+    androidTestImplementation navigation.testing
+
+    implementation material.material
+
+    implementation hilt.android
+    kapt hilt.compiler
+    testImplementation hilt.androidTesting
+    kaptTest hilt.compiler
+    androidTestImplementation hilt.androidTesting
+    kaptAndroidTest hilt.compiler
+
+    implementation kotlinxCoroutines.android
+    implementation kotlinxCoroutines.core
+    testImplementation kotlinxCoroutines.test
+
+    implementation lifecycle.runtimeKtx
+    implementation lifecycle.livedataKtx
+    implementation lifecycle.viewmodelKtx
+    implementation lifecycle.viewmodelSavedstate
+
+    implementation apollo.apollo
+
+    implementation room.runtime
+    kapt room.compiler
+
+    implementation glide.glide
+    kapt glide.compiler
+
+    implementation utils.timber
+    implementation utils.stetho
+    implementation utils.lottie
+
+    testImplementation test.junit
+    testImplementation test.coreTesting
+    androidTestImplementation test.coreTesting
+    testImplementation test.coroutinesTest
+    testImplementation test.mockk
+    testImplementation test.truth
+    testImplementation test.robolectric
+
+    debugImplementation test.junit
+    debugImplementation test.truth
+    debugImplementation androidTest.coreKtx
+    debugImplementation androidTest.fragmentTesting
+
+    androidTestImplementation androidTest.runner
+    androidTestImplementation androidTest.rules
+    androidTestImplementation androidTest.junitKtx
+    androidTestImplementation androidTest.espressoCore
+    androidTestImplementation androidTest.espressoContrib
+    androidTestImplementation androidTest.mockkAndroid
+
+
+
+}

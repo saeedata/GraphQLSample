@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/recipeList">
+
+
+    <fragment
+        android:id="@+id/recipeList"
+        android:name="com.saeed.marleyspoon.ui.fragment.recipeList.FragmentRecipeList"
+        tools:layout="@layout/fragment_recipe_list">
+
+
+        <action
+            android:id="@+id/action_recipe_list_to_recipe_details"
+            app:destination="@+id/recipeDetails" >
+
+            <argument
+                android:name=".EXTRA.RECIPE_ID"
+                app:argType="string" />
+
+            <argument
+                android:name=".EXTRA.RECIPE_TITLE"
+                app:argType="string"
+                app:nullable="true"
+                android:defaultValue="null" />
+
+            <argument
+                android:name=".EXTRA.RECIPE_PHOTO_URL"
+                app:argType="string"
+                app:nullable="true"
+                android:defaultValue="null"/>
+
+            <argument
+                android:name=".EXTRA.TRANSITION_NAME"
+                app:argType="string"
+                app:nullable="true"
+                android:defaultValue="null"/>
+
+        </action>
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/recipeDetails"
+        android:name="com.saeed.marleyspoon.ui.fragment.recipeDetails.FragmentRecipeDetails"
+        tools:layout="@layout/fragment_recipe_details">
+
+    </fragment>
+
+</navigation>

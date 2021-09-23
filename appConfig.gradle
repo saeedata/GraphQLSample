@@ -1,0 +1,45 @@
+ext {
+
+    //----------------- app settings -----------------
+    application_id = 'com.saeed.marleyspoon'
+    version_code = 1
+    version_name = '1.0.0'
+    version_name_beta = '1.0.0-beta'
+    minimum_sdk_ver = 21
+    compile_sdk_ver = 30
+    target_sdk_ver = 30
+    //----------------- app settings -----------------
+
+    //----------------- release configs -----------------
+    releaseSettings = [
+            var: [
+            ],
+            res: [
+            ]
+    ]
+    //----------------- release configs -----------------
+
+    //----------------- debug configs -----------------
+    debugSettings = [
+            var: [
+            ],
+            res: [
+            ]
+    ]
+    //----------------- debug configs -----------------
+
+    //----------------- common configs -----------------
+    commonSettings = [
+            var: [
+                    pref_name            : "marleyspoon_pref",
+                    contentful_server_url: "https://graphql.contentful.com/content/v1/spaces/kk2bw5ojx476/environments/master",
+                    contentful_token_id  : "7ac531648a1b5e1dab6c18b0979f822a5aad0fe5f1109829b8a197eb2be4b84c",
+            ],
+            res: [
+            ]
+    ]
+    //----------------- common configs -----------------
+
+
+}
+

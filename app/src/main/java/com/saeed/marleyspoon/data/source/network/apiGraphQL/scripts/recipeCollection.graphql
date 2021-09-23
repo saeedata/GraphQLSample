@@ -1,0 +1,16 @@
+query RecipeCollection ($limit: Int, $skip: Int){
+  recipeCollection(limit: $limit,skip: $skip) {
+    items {
+      sys {
+        id
+      }
+      title
+      photo {
+        url
+      }
+    }
+    skip
+    limit
+    total
+  }
+}

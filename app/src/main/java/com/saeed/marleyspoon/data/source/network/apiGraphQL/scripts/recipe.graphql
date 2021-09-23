@@ -1,0 +1,17 @@
+query Recipe($id: String!) {
+  recipe(id: $id) {
+    title
+    photo {
+      url
+    }
+    description
+    chef {
+      name
+    }
+    tagsCollection {
+      items {
+        name
+      }
+    }
+  }
+}
